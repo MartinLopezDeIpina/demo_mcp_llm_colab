@@ -68,19 +68,18 @@ class ReactAgent:
             self,
             llm: BaseLLM,
             tools: List[StructuredTool],
-            question: str,
     ):
-
         self.llm = llm
         self.tools = tools
-        self.question = question
         self.finished = False
 
     def is_finished(self):
         """todo: check if thea agent's scratchpad is too long"""
         return self.finished
 
-    async def run(self, reset=True):
+    async def run(self, question: str, reset=True):
+        self.question = question
+
         if reset:
             self.messages = []
             self.messages.append(self.create_initial_message())

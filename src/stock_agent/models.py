@@ -27,7 +27,7 @@ class MaxPriceArgs(SimpleSchemaArgs):
     )
 
 class PriceDateArgs(SimpleSchemaArgs):
-    stock: Literal["Amazon", "Google", "Nvidia", "Meta", "Sp500", "Apple"] = Field(
+    stock: Literal["Amazon", "Google", "Nvidia", "Meta", "Sp500", "Apple", "Tesla"] = Field(
         description="Stock name"
     )
     date: str = Field(
