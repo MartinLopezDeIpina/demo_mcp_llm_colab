@@ -72,6 +72,9 @@ class ReactAgent:
         self.llm = llm
         self.tools = tools
         self.finished = False
+        self.validation_errors = 0
+        self.max_validation_errors = 3
+        self.messages = []
 
     def is_finished(self):
         """todo: check if thea agent's scratchpad is too long"""
@@ -83,6 +86,7 @@ class ReactAgent:
         if reset:
             self.messages = []
             self.messages.append(self.create_initial_message())
+            self.validation_errors = 0
 
             self.finished = False
 
@@ -102,6 +106,10 @@ class ReactAgent:
                 action = validate_response(response, self.tools)
             except Exception as e:
                 print(f"Error validating response: {e}")
+                self.validation_errors += 1
+                if self.validation_errors > self.max_validation_errors:
+                    self.finished = True
+                    raise Exception(f"Too many validation errors: {self.validation_errors}, stopping agent")
 
         new_messages = []
 

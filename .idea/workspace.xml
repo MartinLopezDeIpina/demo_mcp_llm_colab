@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b17b3c89-4813-43f7-9cc8-1b0652bf0c63" name="Changes" comment="añadir tools y limpiar, parece que funciona">
-      <change afterPath="$PROJECT_DIR$/src/stock_agent/tools.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stock_agent/validate_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/prueba_tool.py" beforeDir="false" />
+    <list default="true" id="b17b3c89-4813-43f7-9cc8-1b0652bf0c63" name="Changes" comment="código de validación">
       <change beforePath="$PROJECT_DIR$/src/stock_agent/mcp_react_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/mcp_react_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/prueba_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/prueba_request.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stock_agent/validate_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/validate_agent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +94,7 @@
       <workItem from="1738255258523" duration="903000" />
       <workItem from="1738264440463" duration="11234000" />
       <workItem from="1738324785522" duration="20534000" />
-      <workItem from="1738402045438" duration="18827000" />
+      <workItem from="1738402045438" duration="20001000" />
     </task>
     <task id="LOCAL-00001" summary="commit inicial">
       <option name="closed" value="true" />
@@ -117,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738419942929</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="código de validación">
+      <option name="closed" value="true" />
+      <created>1738432742642</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1738432742642</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,17 +129,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="commit inicial" />
     <MESSAGE value="añadir tools y limpiar, parece que funciona" />
-    <option name="LAST_COMMIT_MESSAGE" value="añadir tools y limpiar, parece que funciona" />
+    <MESSAGE value="código de validación" />
+    <option name="LAST_COMMIT_MESSAGE" value="código de validación" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/stock_agent/validate_agent.py</url>
-          <line>33</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -150,7 +147,7 @@
     <SUITE FILE_PATH="coverage/acciones_mcp$json_schema.coverage" NAME="json_schema Coverage Results" MODIFIED="1738265432662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/pydantic" />
     <SUITE FILE_PATH="coverage/acciones_mcp$_asyncio.coverage" NAME="_asyncio Coverage Results" MODIFIED="1738349538086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/anyio/_backends" />
     <SUITE FILE_PATH="coverage/acciones_mcp$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1738349660142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/usr/lib/python3.12/asyncio" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$validate_agent.coverage" NAME="validate_agent Coverage Results" MODIFIED="1738432366598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$validate_agent.coverage" NAME="validate_agent Coverage Results" MODIFIED="1738433071501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
     <SUITE FILE_PATH="coverage/acciones_mcp$_pydev_execfile.coverage" NAME="_pydev_execfile Coverage Results" MODIFIED="1738271382385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/pydev/_pydev_imps" />
     <SUITE FILE_PATH="coverage/acciones_mcp$prueba_request.coverage" NAME="prueba_request Coverage Results" MODIFIED="1738419826137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
     <SUITE FILE_PATH="coverage/acciones_mcp$tools.coverage" NAME="tools Coverage Results" MODIFIED="1738432153699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />

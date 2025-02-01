@@ -16,11 +16,16 @@ async def get_agent_response(agent, question, debug):
         for message in messages:
             print(message.content)
             #print("\n\n")
-    return messages[-1].content
+    return messages[-1].content, len(messages)
 
 async def main():
     dataset_qa = load_dataset("MartinElMolon/QA_precio_stocks", split="eval")
     NUM_EVALUACIONES = 2
+    """
+    Messages: human, ai_thinking, action, observation, ai_thinking, action, result
+    7 messgaes
+    """
+    NUM_PERFECT_MESSAGES = 6
 
     mcp_client = MCPClient()
     await mcp_client.connect_to_server()
@@ -43,17 +48,22 @@ async def main():
     correct_answers = datos_evaluacion["price"]
 
     correct_responses = 0
+    perfect_responses = 0
     for i in range(NUM_EVALUACIONES):
+        print(f"validating {i} / {NUM_EVALUACIONES} Correct: {correct_responses}")
         try:
-            agent_answer = await get_agent_response(react_mcp_agent, questions[i], debug=True)
+            agent_answer, num_messages = await get_agent_response(react_mcp_agent, questions[i], debug=True)
             # El agente puede redondear los decimales
             if float(agent_answer) - correct_answers[i] < 0.01:
                 correct_responses += 1
+                if num_messages == NUM_PERFECT_MESSAGES:
+                    perfect_responses += 1
         # En caso de error la repsuesta será incorrecta
         except Exception as e:
             print(f"Error al ejecutar pregunta {questions[i]}: {e}")
 
-    print(f"Porcentaje de respuestas correctas: {correct_responses} / {NUM_EVALUACIONES}")
+    print(f"Percentage correct responses: {correct_responses} / {NUM_EVALUACIONES}")
+    print(f"Percentage perfect responses: {perfect_responses} / {NUM_EVALUACIONES}")
 
     await mcp_client.cleanup()
 
