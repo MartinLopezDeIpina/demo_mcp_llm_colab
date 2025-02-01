@@ -4,18 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b17b3c89-4813-43f7-9cc8-1b0652bf0c63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/acciones_mcp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b17b3c89-4813-43f7-9cc8-1b0652bf0c63" name="Changes" comment="commit inicial">
+      <change afterPath="$PROJECT_DIR$/src/prueba_tool.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prueba_pydantic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prueba_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/prueba_request.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -31,10 +37,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python._asyncio.executor": "Debug",
     "Python._pydev_execfile.executor": "Run",
-    "Python.client.executor": "Run",
+    "Python.client.executor": "Debug",
     "Python.json_schema.executor": "Debug",
     "Python.prueba_request.executor": "Debug",
+    "Python.prueba_tool.executor": "Debug",
+    "Python.tasks.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
@@ -70,43 +79,62 @@
       <workItem from="1738250202904" duration="4000" />
       <workItem from="1738250377613" duration="4339000" />
       <workItem from="1738255258523" duration="903000" />
-      <workItem from="1738264440463" duration="10810000" />
+      <workItem from="1738264440463" duration="11234000" />
+      <workItem from="1738324785522" duration="20534000" />
     </task>
+    <task id="LOCAL-00001" summary="commit inicial">
+      <option name="closed" value="true" />
+      <created>1738284707388</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1738284707388</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit inicial" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit inicial" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/prueba_request.py</url>
-          <line>131</line>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/src/prueba_tool.py</url>
+          <line>59</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/prueba_request.py</url>
-          <line>42</line>
-          <option name="timeStamp" value="11" />
+          <line>217</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/prueba_request.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/prueba_request.py</url>
-          <line>191</line>
-          <option name="timeStamp" value="15" />
+          <line>241</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/acciones_mcp$json_schema.coverage" NAME="json_schema Coverage Results" MODIFIED="1738265432662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/pydantic" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$_asyncio.coverage" NAME="_asyncio Coverage Results" MODIFIED="1738349538086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/anyio/_backends" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1738349660142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/usr/lib/python3.12/asyncio" />
     <SUITE FILE_PATH="coverage/acciones_mcp$_pydev_execfile.coverage" NAME="_pydev_execfile Coverage Results" MODIFIED="1738271382385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/pydev/_pydev_imps" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$prueba_request.coverage" NAME="prueba_request Coverage Results" MODIFIED="1738284213049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$client.coverage" NAME="client Coverage Results" MODIFIED="1738253502612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$prueba_request.coverage" NAME="prueba_request Coverage Results" MODIFIED="1738368527232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$client.coverage" NAME="client Coverage Results" MODIFIED="1738348323141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$prueba_tool.coverage" NAME="prueba_tool Coverage Results" MODIFIED="1738368050960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

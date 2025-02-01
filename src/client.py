@@ -56,21 +56,22 @@ class MCPClient:
 async def main():
 
     client = MCPClient()
+    await client.connect_to_server()
 
     try:
         await client.connect_to_server()
 
         tool_name = "get_max_price_dates_tool"
         tool_args = {
-          "accion":"sp500",
-          "fecha1":"2024-06-06",
-          "fecha2":"2025-06-10"
+          "stock":"sp500",
+          "start_date":"2024-06-06",
+          "end_date":"2025-06-10"
         }
 
         result = await client.call_tool(tool_name, tool_args)
         print(result)
 
-    finally: 
+    finally:
         await client.cleanup()
 
 if __name__ == "__main__":

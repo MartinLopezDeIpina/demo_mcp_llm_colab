@@ -1,4 +1,5 @@
-from typing import Optional, Any, Sequence, List
+import asyncio
+from typing import Optional, Any, Sequence, List, Literal
 
 import requests
 from langchain_core.callbacks import CallbackManagerForLLMRun
@@ -8,7 +9,7 @@ from langchain_core.outputs import LLMResult
 from langchain_core.prompt_values import PromptValue
 from langchain_core.prompts import HumanMessagePromptTemplate
 from langchain_core.runnables import RunnableConfig
-from langchain_core.tools import tool, Tool
+from langchain_core.tools import tool, Tool, StructuredTool
 from langchain_core.prompts.chat import ChatPromptTemplate
 from pydantic import BaseModel, Field, ValidationError
 import json
@@ -50,12 +51,21 @@ def parse_response(response: str):
 
     return None
 
-def validate_response(response: str):
+def get_tool_by_name(available_tools: List[Tool], tool_name: str):
+    for tool in available_tools:
+        if tool.name == tool_name.lower():
+            return tool
+    return None
+
+def validate_response(response: str, available_tools: List[Tool]):
     parsed_response = parse_response(response)
 
     if parsed_response:
         try:
-            validated_action = Action.parse_obj(parsed_response)
+            validated_action = Action.model_validate(parsed_response)
+            tool = get_tool_by_name(available_tools, validated_action.action)
+            if tool:
+                tool.args_schema.model_validate(validated_action.args)
             return validated_action
 
         except ValidationError as e:
@@ -74,15 +84,12 @@ def format_messages_into_json(messages):
             json_messages.append(message.model_dump())
     return json_messages
 
-
-
 initial_prompt_template_str="""You are a stock market analyst. You have been asked a question about the stock market price, answer precisely and accurately.
 
 You have 4 possible actions, always think about the best option, only choose one option, remember to use the tools to help you: 
-    {tools_info}
-    4. ANSWER: Anwer the question with the precise value.
+{tools_info}
 
-Your response must contain the action to perform after the thinking process. The action must be in the following json format. Remember to use exactly de specified tool schema: 
+Your response must contain the action to perform after the thinking process. The action must be in the following json format, even if the action is the final answer. Remember to use exactly de specified tool schema: 
     \\boxed{{"action": "name_of_the_action_to_perform", "args": {{//required args}}}}
 
 For example, for the action "ACTION" with the argument "arg1" with value "value", the json would be:
@@ -90,10 +97,31 @@ For example, for the action "ACTION" with the argument "arg1" with value "value"
 
 The question is: {question}"""
 
-class MaxPriceArgs(BaseModel):
-    stock: str = Field(..., description="Stock name")
-    start_date: str = Field(..., description="Start date (YYYY-MM-DD)")
-    end_date: str = Field(..., description="End date (YYYY-MM-DD)")
+class SimpleSchemaArgs(BaseModel):
+    @classmethod
+    def get_simple_schema(cls) -> dict:
+        schema = cls.model_json_schema()["properties"]
+        for name, value in schema.items():
+            value.pop("title")
+        return schema
+
+class MaxPriceArgs(SimpleSchemaArgs):
+    stock: Literal["Amazon", "Google", "Nvidia", "Meta", "Sp500", "Apple"] = Field(
+        description="Stock name"
+    )
+    start_date: str = Field(
+        description="Start date (YYYY-MM-DD)",
+        pattern=r'^\d{4}-\d{2}-\d{2}$'
+    )
+    end_date: str = Field(
+        description="End date (YYYY-MM-DD)",
+        pattern=r'^\d{4}-\d{2}-\d{2}$'
+    )
+
+class AnswerArgs(SimpleSchemaArgs):
+    value: float = Field(
+        description="Answer value"
+    )
 
     @classmethod
     def get_simple_schema(cls) -> dict:
@@ -104,18 +132,24 @@ class MaxPriceArgs(BaseModel):
 
 
 async def get_max_price_dates_tool(stock: str, start_date: str, end_date: str) -> float:
-    tool_args = {
-        "stock": stock,
-        "fecha1": start_date,
-        "fecha2": end_date
-    }
-    return await mcp_client.call_tool("get_max_price_dates", tool_args)
+    tool_args = locals()
+    return await mcp_client.call_tool("get_max_price_dates_tool", tool_args)
 
-max_price_tool = Tool(
-    name="get_max_price_dates",
+async def answer_tool_func(value: float) -> float:
+    return value
+
+max_price_tool = StructuredTool(
+    name="get_max_price_dates_tool",
     func=get_max_price_dates_tool,
     description="Returns the maximum price of a stock between two dates",
     args_schema=MaxPriceArgs
+)
+
+answer_tool = StructuredTool(
+    name="answer",
+    func=answer_tool_func,
+    description="Answer the question",
+    args_schema=AnswerArgs
 )
 
 
@@ -130,17 +164,12 @@ class CustomColabLLM:
                 }
         response = requests.get(self.colab_url, params=params).json()
 
-        try:
-            #todo: validar también cada tool el nombre y sus argumentos -> si no set en la lista mal, si está y args mal también malá
-            validated_action = validate_response(response)
-            return validated_action
-        except Exception as e:
-            print(f"Error validating response: {str(e)}")
-            return None
+        return response
+
 
 class ReactAgent:
     def create_initial_message(self):
-        tools_info = "\n".join([f"{i+1}. {tool.name.upper()}: {tool.description}; Required args: {tool.args_schema.get_simple_schema()}" for i, tool in enumerate(self.tools)])
+        tools_info = "\n".join([f"{i+1}. {tool.name.upper()}: {tool.description}; Required args schema: {tool.args_schema.get_simple_schema()}" for i, tool in enumerate(self.tools)])
 
         initial_message_template = HumanMessagePromptTemplate.from_template(initial_prompt_template_str)
         initial_message = initial_message_template.format(
@@ -167,7 +196,7 @@ class ReactAgent:
         return self.finished
 
 
-    def run(self, reset=True):
+    async def run(self, reset=True):
         if reset:
             self.messages = []
             self.messages.append(self.create_initial_message())
@@ -175,7 +204,7 @@ class ReactAgent:
             self.finished = False
 
         while not self.is_finished():
-            self.step()
+            await self.step()
 
         return self.messages[-1]
 
@@ -183,58 +212,66 @@ class ReactAgent:
         # Si da muchos problemas gestionar mejor validación
         action = None
         while not action:
-            action = self.llm.invoke(self.messages)
+            print("Forwarding message")
+            response = self.llm.invoke(self.messages)
+            try:
+                action = validate_response(response, self.tools)
+            except Exception as e:
+                print(f"Error validating response: {e}")
 
         if action.action.lower() == "answer":
             self.finished = True
-            return AIMessage("{action.args['value']}")
-        elif action.action.lower() in [tool.name for tool in self.tools]:
-            for tool in self.tools:
-                if tool.name == action.action.lower():
-                    tool_args = action.args
-                    ToolCall = ({
-                        "name": tool.name,
-                        "args": tool_args,
-                        "id": "1",
-                        "type": "tool_call"
-                    })
-                    return ToolCall
+            message = AIMessage("{action.args['value']}")
+        else:
+            tool = get_tool_by_name(self.tools, action.action)
+            tool_args = action.args
+            message = ({
+                "name": tool.name,
+                "args": tool_args,
+                "id": len(self.messages),
+                "type": "tool_call"
+            })
 
-    def step(self):
+        return message
+
+    async def step(self):
         new_message = self.forward()
+        print(f"New message: {new_message}")
         self.messages.append(new_message)
 
-        if new_message["type"] == "tool_call":
-            tool_response = self.execute_tool(new_message)
+        if type(new_message) == dict and new_message["type"] == "tool_call":
+            tool_response = await self.execute_tool(new_message)
             self.messages.append(ToolMessage(content=tool_response, tool_call_id="1"))
 
-    def execute_tool(self, tool_call: ToolCall) -> Any:
+    async def execute_tool(self, tool_call: ToolCall) -> Any:
         try:
-            # Encontrar la función original (no el objeto Tool)
-            tool_func = None
-            for tool in self.tools:
-                if tool.name == tool_call["name"]:
-                    tool_func = tool.func 
+            tool = None
+            for t in self.tools:
+                if t.name == tool_call["name"]:
+                    tool = t
                     break
-                    
-            if tool_func is None:
-                raise ValueError(f"Herramienta {tool_call["name"]} no encontrada")
 
-            result = tool_func(**tool_call["args"])
-            return result
+            result = await tool.invoke(input=tool_call["args"])
+            value = result.content[0].text
+
+            return value
             
         except Exception as e:
             return f"Error ejecutando la herramienta: {str(e)}"
 
-url_grok = "https://c437-34-16-156-112.ngrok-free.app"
-url_grok = f"{url_grok}/generate_messages"
+async def main():
+    await mcp_client.connect_to_server()
+    url_grok = "https://89e9-34-16-215-63.ngrok-free.app"
+    url_grok = f"{url_grok}/generate_messages"
 
-colab_llm = CustomColabLLM(colab_url=url_grok)
-react_mcp_agent = ReactAgent(
-        llm=colab_llm,
-        tools=[max_price_tool],
-        question="What was the top price of amazon stock during 2024-12-18 to 2025-04-07?"
-        )
-last_message = react_mcp_agent.run(reset=True)
-print(last_message)
+    colab_llm = CustomColabLLM(colab_url=url_grok)
+    react_mcp_agent = ReactAgent(
+            llm=colab_llm,
+            tools=[max_price_tool, answer_tool],
+            question="What was the top price of amazon stock during 2024-12-18 to 2025-04-07?"
+            )
+    last_message = await react_mcp_agent.run(reset=True)
+    print(last_message)
 
+if __name__ == "__main__":
+    asyncio.run(main())
