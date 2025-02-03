@@ -1,4 +1,4 @@
-from stock_agent.models import MaxPriceArgs, AnswerArgs, PriceDateArgs
+from stock_agent.agent.models import MaxPriceArgs, AnswerArgs, PriceDateArgs
 from langchain_core.tools import StructuredTool
 
 

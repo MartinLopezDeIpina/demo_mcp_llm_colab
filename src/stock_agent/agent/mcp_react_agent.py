@@ -1,12 +1,19 @@
+from doctest import debug
+
+from langchain_core.language_models import BaseChatModel
+from pydantic import Field
 from typing import Optional, Any, Sequence, List, Literal
 import requests
+from langchain_core.callbacks import CallbackManagerForLLMRun
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage, ToolMessage, ToolCall, BaseMessage
 from langchain_core.language_models.llms import BaseLLM
+from langchain_core.outputs import LLMResult
 from langchain_core.prompts import HumanMessagePromptTemplate
 from langchain_core.tools import tool, Tool, StructuredTool
 import json
 
-from stock_agent.validation_utils import format_messages_into_json, validate_response, get_tool_by_name
+from stock_agent.agent.models import ToolCallAction
+from stock_agent.agent.validation_utils import format_messages_into_json, validate_response, get_tool_by_name
 
 initial_prompt_template_str="""Solve the question answering task with interleaving Thought, Action, Observation steps. The action represents the called tool, and the boservation represents the tool's output. You task is to identify the next action based on the observation and the thinking process.
 
@@ -22,30 +29,30 @@ For example, for the action "ANSWER" with the argument "value" with value "000.0
 The question is: {question}
 Begin!"""
 
-class ToolCallAction(BaseMessage):
-    type: str = "tool_call"
-    content: str
-    tool_name: str
-    tool_args: dict
+class CustomColabLLM(BaseChatModel):
+    colab_url: str = Field(..., description="URL of the colab 'API'")
 
-    @classmethod
-    def __create__(cls, content: str, tool_name: str, tool_args: dict) -> "ToolCallAction":
-        return cls(
-            content=content,
-            tool_name=tool_name,
-            tool_args=tool_args
-        )
+    def _llm_type(self) -> str:
+        return "custom_colab_llm"
 
-class CustomColabLLM:
-    def __init__(self, colab_url: str):
-        self.colab_url = colab_url
+    # Necesario sobreescribir, no usarlo
+    def _generate(
+        self,
+        prompts: list[str],
+        stop: Optional[list[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
+    ) -> LLMResult:
+        pass
 
-    def invoke(self, messages: List[BaseMessage]):
+    def invoke(self, messages: List[BaseMessage], **kwargs) -> dict:
         json_messages = format_messages_into_json(messages)
         params = {
             "messages": json.dumps(json_messages)
         }
         response = requests.get(self.colab_url, params=params).json()
+        if response["content"]:
+            response = AIMessage(content=response["content"])
 
         return response
 
@@ -66,7 +73,7 @@ class ReactAgent:
 
     def __init__(
             self,
-            llm: BaseLLM,
+            llm: BaseChatModel,
             tools: List[StructuredTool],
     ):
         self.llm = llm
@@ -100,7 +107,9 @@ class ReactAgent:
         action = None
         while not action:
             print("Forwarding message")
-            response = self.llm.invoke(self.messages)
+            # Remove tool call actions
+            send_messages = [message for message in self.messages if type(message) != ToolCallAction]
+            response = self.llm.invoke(send_messages)
             print(f"Response: {response}")
             try:
                 action = validate_response(response, self.tools)
@@ -113,8 +122,7 @@ class ReactAgent:
 
         new_messages = []
 
-        ai_message = AIMessage(content=f"\n{response['content']}\n")
-        new_messages.append(ai_message)
+        new_messages.append(response)
         if action.action.lower() == "answer":
             self.finished = True
             message = AIMessage(f"{action.args['value']}")

@@ -3,10 +3,14 @@ from os.path import split
 
 from langchain_core.tools import tool, Tool, StructuredTool
 from client import MCPClient
-from stock_agent.mcp_react_agent import CustomColabLLM, ReactAgent
-from stock_agent.models import MaxPriceArgs, AnswerArgs, PriceDateArgs
-from stock_agent.tools import ToolManager
+from stock_agent.agent.mcp_react_agent import CustomColabLLM, ReactAgent
+from stock_agent.agent.models import MaxPriceArgs, AnswerArgs, PriceDateArgs
+from stock_agent.agent.tools import ToolManager
 from datasets import load_dataset
+from langchain_groq import ChatGroq
+import dotenv
+from langsmith import Client
+
 
 async def get_agent_response(agent, question, debug):
     messages = await agent.run(question=question, reset=True)
@@ -32,16 +36,25 @@ async def main():
 
     tool_manager = ToolManager(mcp_client)
 
-    url_grok = "https://141b-34-16-223-19.ngrok-free.app"
+    url_grok = "https://5495-34-142-144-179.ngrok-free.app"
     url_grok = f"{url_grok}/generate_messages"
 
-    colab_llm = CustomColabLLM(colab_url=url_grok)
+    client = Client()
+
+    #colab_llm = CustomColabLLM(colab_url=url_grok)
+    groq_llm = ChatGroq(
+        model="deepseek-r1-distill-llama-70b",
+        temperature=0.6,
+        max_tokens=None,
+        timeout=None,
+        max_retries=2,
+        verbose=True
+    )
     tools = tool_manager.get_tool_instances()
     react_mcp_agent = ReactAgent(
-        llm=colab_llm,
+        llm=groq_llm,
         tools=tools
     )
-
 
     datos_evaluacion = dataset_qa[:NUM_EVALUACIONES]
     questions = datos_evaluacion["question"]
@@ -52,7 +65,7 @@ async def main():
     for i in range(NUM_EVALUACIONES):
         print(f"validating {i} / {NUM_EVALUACIONES} Correct: {correct_responses}")
         try:
-            agent_answer, num_messages = await get_agent_response(react_mcp_agent, questions[i], debug=True)
+            agent_answer, num_messages = await get_agent_response(react_mcp_agent, questions[i], debug=False)
             # El agente puede redondear los decimales
             if float(agent_answer) - correct_answers[i] < 0.01:
                 correct_responses += 1
@@ -68,4 +81,5 @@ async def main():
     await mcp_client.cleanup()
 
 if __name__ == "__main__":
+    dotenv.load_dotenv()
     asyncio.run(main())

@@ -1,5 +1,20 @@
+from langchain_core.messages import BaseMessage
 from pydantic import BaseModel, Field
 from typing import Literal
+
+class ToolCallAction(BaseMessage):
+    type: str = "tool_call"
+    content: str
+    tool_name: str
+    tool_args: dict
+
+    @classmethod
+    def __create__(cls, content: str, tool_name: str, tool_args: dict) -> "ToolCallAction":
+        return cls(
+            content=content,
+            tool_name=tool_name,
+            tool_args=tool_args
+        )
 
 class Action(BaseModel):
     action: str = Field(title="Action", description="Action to perform")

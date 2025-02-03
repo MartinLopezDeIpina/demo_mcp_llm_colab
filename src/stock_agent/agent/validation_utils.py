@@ -1,12 +1,13 @@
 from typing import  List, Literal
+
+from langchain_core.messages import AIMessage, BaseMessage
 from langchain_core.tools import tool, Tool
 from pydantic import ValidationError
 import json
 import re
-from stock_agent.models import Action
+from stock_agent.agent.models import Action
 
-def extract_boxed_content(response:dict) -> dict or None:
-    response = response["content"]
+def extract_boxed_content(response:str) -> dict or None:
     pattern = r'\\boxed\{(.*?\}+)}'
     try:
         match = re.search(pattern, response, re.DOTALL)
@@ -39,8 +40,8 @@ def get_tool_by_name(available_tools: List[Tool], tool_name: str):
             return tool
     return None
 
-def validate_response(response: dict, available_tools: List[Tool]):
-    parsed_response = parse_response(response)
+def validate_response(response: BaseMessage, available_tools: List[Tool]):
+    parsed_response = parse_response(response.content)
 
     if parsed_response:
         try:
