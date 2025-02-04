@@ -4,7 +4,7 @@ from os.path import split
 from langchain_core.tools import tool, Tool, StructuredTool
 from client import MCPClient
 from stock_agent.agent.mcp_react_agent import CustomColabLLM, ReactAgent
-from stock_agent.agent.models import MaxPriceArgs, AnswerArgs, PriceDateArgs
+from stock_agent.agent.models import MaxPriceArgs, AnswerArgs, PriceDateArgs, ToolCallAction
 from stock_agent.agent.tools import ToolManager
 from datasets import load_dataset
 from langchain_groq import ChatGroq
@@ -20,10 +20,10 @@ async def get_agent_response(agent, question, debug):
         for message in messages:
             print(message.content)
             #print("\n\n")
-    return messages[-1].content, len(messages)
+    return messages[-1].content, messages
 
 async def main():
-    dataset_qa = load_dataset("MartinElMolon/QA_precio_stocks", split="eval")
+    dataset_qa = load_dataset("MartinElMolon/QA_precio_stocks", split="train")
     NUM_EVALUACIONES = 2
     """
     Messages: human, ai_thinking, action, observation, ai_thinking, action, result
@@ -65,12 +65,11 @@ async def main():
     for i in range(NUM_EVALUACIONES):
         print(f"validating {i} / {NUM_EVALUACIONES} Correct: {correct_responses}")
         try:
-            agent_answer, num_messages = await get_agent_response(react_mcp_agent, questions[i], debug=False)
+            agent_answer, messages = await get_agent_response(react_mcp_agent, questions[i], debug=False)
             # El agente puede redondear los decimales
             if float(agent_answer) - correct_answers[i] < 0.01:
                 correct_responses += 1
-                if num_messages == NUM_PERFECT_MESSAGES:
-                    perfect_responses += 1
+
         # En caso de error la repsuesta será incorrecta
         except Exception as e:
             print(f"Error al ejecutar pregunta {questions[i]}: {e}")

@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b17b3c89-4813-43f7-9cc8-1b0652bf0c63" name="Changes" comment="max validation errors agent">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="b17b3c89-4813-43f7-9cc8-1b0652bf0c63" name="Changes" comment="delete local .env">
+      <change afterPath="$PROJECT_DIR$/src/stock_agent/generate_train_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/mcp_react_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/agent/mcp_react_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/agent/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/prueba_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/prueba_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/agent/tools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stock_agent/agent/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/agent/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stock_agent/generate_training_data.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stock_agent/validate_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/validate_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stock_agent/validation_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stock_agent/agent/validation_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,13 +52,16 @@
     &quot;Python._asyncio.executor&quot;: &quot;Debug&quot;,
     &quot;Python._pydev_execfile.executor&quot;: &quot;Run&quot;,
     &quot;Python.client.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.generate_train_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.generate_training_data.executor&quot;: &quot;Debug&quot;,
     &quot;Python.json_schema.executor&quot;: &quot;Debug&quot;,
     &quot;Python.mcp_react_agent.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.models.executor&quot;: &quot;Run&quot;,
     &quot;Python.prueba_request.executor&quot;: &quot;Run&quot;,
     &quot;Python.prueba_tool.executor&quot;: &quot;Debug&quot;,
     &quot;Python.tasks.executor&quot;: &quot;Debug&quot;,
     &quot;Python.tools.executor&quot;: &quot;Run&quot;,
-    &quot;Python.validate_agent.executor&quot;: &quot;Run&quot;,
+    &quot;Python.validate_agent.executor&quot;: &quot;Debug&quot;,
     &quot;Python.validation_utils.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
@@ -70,11 +70,13 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;debugger.dataViews.python.type.renderers&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/stock_agent/agent" />
       <recent name="$PROJECT_DIR$/src/stock_agent" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
@@ -103,7 +105,8 @@
       <workItem from="1738324785522" duration="20534000" />
       <workItem from="1738402045438" duration="22707000" />
       <workItem from="1738581218403" duration="6314000" />
-      <workItem from="1738593139606" duration="380000" />
+      <workItem from="1738593139606" duration="17320000" />
+      <workItem from="1738688393681" duration="1847000" />
     </task>
     <task id="LOCAL-00001" summary="commit inicial">
       <option name="closed" value="true" />
@@ -137,31 +140,69 @@
       <option name="project" value="LOCAL" />
       <updated>1738435544710</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="groq api works with Distilled Deepseek Llama 70b">
+      <option name="closed" value="true" />
+      <created>1738593659912</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1738593659912</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add .gitignore">
+      <option name="closed" value="true" />
+      <created>1738593973998</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1738593973998</updated>
+    </task>
+    <task id="LOCAL-00007" summary="delete local .env">
+      <option name="closed" value="true" />
+      <created>1738594211349</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1738594211349</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="commit inicial" />
     <MESSAGE value="añadir tools y limpiar, parece que funciona" />
     <MESSAGE value="código de validación" />
     <MESSAGE value="max validation errors agent" />
-    <option name="LAST_COMMIT_MESSAGE" value="max validation errors agent" />
+    <MESSAGE value="groq api works with Distilled Deepseek Llama 70b" />
+    <MESSAGE value="add .gitignore" />
+    <MESSAGE value="delete local .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete local .env" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/stock_agent/agent/mcp_react_agent.py</url>
-          <line>142</line>
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/src/stock_agent/generate_train_data.py</url>
+          <line>122</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/stock_agent/agent/mcp_react_agent.py</url>
-          <line>151</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/src/stock_agent/generate_train_data.py</url>
+          <line>69</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -174,16 +215,19 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/acciones_mcp$json_schema.coverage" NAME="json_schema Coverage Results" MODIFIED="1738265432662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/pydantic" />
     <SUITE FILE_PATH="coverage/acciones_mcp$_asyncio.coverage" NAME="_asyncio Coverage Results" MODIFIED="1738349538086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/anyio/_backends" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1738349660142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/usr/lib/python3.12/asyncio" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$validate_agent.coverage" NAME="validate_agent Coverage Results" MODIFIED="1738587396841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$_pydev_execfile.coverage" NAME="_pydev_execfile Coverage Results" MODIFIED="1738271382385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/pydev/_pydev_imps" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$models.coverage" NAME="models Coverage Results" MODIFIED="1738630890040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent/agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$validate_agent.coverage" NAME="validate_agent Coverage Results" MODIFIED="1738597133105" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
     <SUITE FILE_PATH="coverage/acciones_mcp$prueba_request.coverage" NAME="prueba_request Coverage Results" MODIFIED="1738433714565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$validation_utils.coverage" NAME="validation_utils Coverage Results" MODIFIED="1738584764681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$_pydev_execfile.coverage" NAME="_pydev_execfile Coverage Results" MODIFIED="1738271382385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/pydev/_pydev_imps" />
     <SUITE FILE_PATH="coverage/acciones_mcp$tools.coverage" NAME="tools Coverage Results" MODIFIED="1738432153699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$generate_training_data.coverage" NAME="generate_training_data Coverage Results" MODIFIED="1738597284255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$mcp_react_agent.coverage" NAME="mcp_react_agent Coverage Results" MODIFIED="1738587080835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$json_schema.coverage" NAME="json_schema Coverage Results" MODIFIED="1738265432662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/pydantic" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1738349660142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/usr/lib/python3.12/asyncio" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$validation_utils.coverage" NAME="validation_utils Coverage Results" MODIFIED="1738584764681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
+    <SUITE FILE_PATH="coverage/acciones_mcp$generate_train_data.coverage" NAME="generate_train_data Coverage Results" MODIFIED="1738631283940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
     <SUITE FILE_PATH="coverage/acciones_mcp$client.coverage" NAME="client Coverage Results" MODIFIED="1738348323141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/acciones_mcp$prueba_tool.coverage" NAME="prueba_tool Coverage Results" MODIFIED="1738368050960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/acciones_mcp$mcp_react_agent.coverage" NAME="mcp_react_agent Coverage Results" MODIFIED="1738587080835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/stock_agent" />
   </component>
 </project>

@@ -29,7 +29,7 @@ class SimpleSchemaArgs(BaseModel):
         return schema
 
 class MaxPriceArgs(SimpleSchemaArgs):
-    stock: Literal["Amazon", "Google", "Nvidia", "Meta", "Sp500", "Apple"] = Field(
+    stock: Literal["Amazon", "Google", "Nvidia", "Meta", "Sp500", "Apple", "Tesla"] = Field(
         description="Stock name"
     )
     start_date: str = Field(
